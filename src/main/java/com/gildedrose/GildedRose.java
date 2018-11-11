@@ -35,25 +35,26 @@ class GildedRose {
             if (item.name.equals(SULFURAS)) {
                 // do nothing
             } else {
+                if (item.name.equals(AGED_BRIE)) {
+                    increaseQuality(item);
+                    item.sellIn = item.sellIn - 1;
+                    if (item.sellIn < EXPIRATION_DATE) {
+                        increaseQuality(item);
+                    }
+                }
+                if (item.name.equals(BACKSTAGE_PASSES)) {
+                    increaseBackstagePassValueInFinalDays(item);
+                    item.sellIn = item.sellIn - 1;
+                    if (item.sellIn < EXPIRATION_DATE) {
+                        item.quality = MIN_QUALITY;
+                    }
+                }
                 if (!item.name.equals(AGED_BRIE)
                         && !item.name.equals(BACKSTAGE_PASSES)) {
                     decreaseQuality(item);
-                } else {
-                    increaseQuality(item);
-                    increaseBackstagePassValueInFinalDays(item);
-                }
-
-                item.sellIn = item.sellIn - 1;
-
-                if (item.sellIn < EXPIRATION_DATE) {
-                    if (item.name.equals(AGED_BRIE)) {
-                        increaseQuality(item);
-                    } else {
-                        if (item.name.equals(BACKSTAGE_PASSES)) {
-                            item.quality = MIN_QUALITY;
-                        } else {
-                                decreaseQuality(item);
-                        }
+                    item.sellIn = item.sellIn - 1;
+                    if (item.sellIn < EXPIRATION_DATE) {
+                        decreaseQuality(item);
                     }
                 }
             }
@@ -61,14 +62,14 @@ class GildedRose {
     }
 
     private void increaseBackstagePassValueInFinalDays(Item item) {
-        if (item.name.equals(BACKSTAGE_PASSES)) {
-            if (item.sellIn <= BACKSTAGE_PASS_FIRST_QUALITY_INCREASE_THRESHOLD) {
-                increaseQuality(item);
-            }
-
-            if (item.sellIn <= BACKSTAGE_PASS_SECOND_QUALITY_INCREASE_THRESHOLD) {
-                increaseQuality(item);
-            }
+        increaseQuality(item);
+        if (item.sellIn <= BACKSTAGE_PASS_FIRST_QUALITY_INCREASE_THRESHOLD) {
+            increaseQuality(item);
         }
+
+        if (item.sellIn <= BACKSTAGE_PASS_SECOND_QUALITY_INCREASE_THRESHOLD) {
+            increaseQuality(item);
+        }
+
     }
 }
