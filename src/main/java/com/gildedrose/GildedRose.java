@@ -32,33 +32,41 @@ class GildedRose {
 
     public void updateQuality() {
         for (Item item : items) {
-            if (item.name.equals(SULFURAS)) {
-                // do nothing
-            } else {
-                if (item.name.equals(AGED_BRIE)) {
+            switch (item.name) {
+                case SULFURAS:
+                    // do nothing
+                    break;
+                case AGED_BRIE:
                     increaseQuality(item);
-                    item.sellIn = item.sellIn - 1;
-                    if (item.sellIn < EXPIRATION_DATE) {
+                    decreaseTimeUntilExpiry(item);
+                    if (isPastExpirationDate(item)) {
                         increaseQuality(item);
                     }
-                }
-                if (item.name.equals(BACKSTAGE_PASSES)) {
+                    break;
+                case BACKSTAGE_PASSES:
                     increaseBackstagePassValueInFinalDays(item);
-                    item.sellIn = item.sellIn - 1;
-                    if (item.sellIn < EXPIRATION_DATE) {
+                    decreaseTimeUntilExpiry(item);
+                    if (isPastExpirationDate(item)) {
                         item.quality = MIN_QUALITY;
                     }
-                }
-                if (!item.name.equals(AGED_BRIE)
-                        && !item.name.equals(BACKSTAGE_PASSES)) {
+                    break;
+                default:
                     decreaseQuality(item);
-                    item.sellIn = item.sellIn - 1;
-                    if (item.sellIn < EXPIRATION_DATE) {
+                    decreaseTimeUntilExpiry(item);
+                    if (isPastExpirationDate(item)) {
                         decreaseQuality(item);
                     }
-                }
+
             }
         }
+    }
+
+    private void decreaseTimeUntilExpiry(Item item) {
+        item.sellIn = item.sellIn - 1;
+    }
+
+    private boolean isPastExpirationDate(Item item) {
+        return item.sellIn < EXPIRATION_DATE;
     }
 
     private void increaseBackstagePassValueInFinalDays(Item item) {
