@@ -12,7 +12,7 @@ final class ItemAdapter implements IItemAdapter {
     }
 
     public void increaseQuality(int qualityDifferential) {
-        if (item.quality < MAX_QUALITY) {
+        if (item.quality <= MAX_QUALITY) {
             item.quality = item.quality + qualityDifferential;
             if (item.quality > MAX_QUALITY) {
                 item.quality = MAX_QUALITY;

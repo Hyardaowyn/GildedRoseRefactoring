@@ -12,11 +12,12 @@ final class BackstagePasses implements IUpdatable {
 
     @Override
     public void update() {
-        increaseBackstagePassValueInFinalDays(itemAdapter);
         itemAdapter.decreaseTimeTillExpiry();
-        if (itemAdapter.isExpired()) {
-            int qualityDifferential = itemAdapter.getQuality();
-            itemAdapter.decreaseQuality(qualityDifferential);
+        final int qualityDifferential = calculateQualityDifferential(itemAdapter);
+        if(qualityDifferential>=0){
+            itemAdapter.increaseQuality(qualityDifferential);
+        }else {
+            itemAdapter.decreaseQuality(-qualityDifferential);
         }
     }
 
@@ -28,6 +29,20 @@ final class BackstagePasses implements IUpdatable {
 
         if (itemAdapter.getTimeTillExpiry() <= BACKSTAGE_PASS_SECOND_QUALITY_INCREASE_THRESHOLD) {
             itemAdapter.increaseQuality(1);
+        }
+    }
+
+    private int calculateQualityDifferential(IItemAdapter itemAdapter){
+        if(itemAdapter.getTimeTillExpiry()>=BACKSTAGE_PASS_FIRST_QUALITY_INCREASE_THRESHOLD){
+            return 1;
+        }
+        if(itemAdapter.getTimeTillExpiry()>=BACKSTAGE_PASS_SECOND_QUALITY_INCREASE_THRESHOLD){
+            return 2;
+        }
+        if(!itemAdapter.isExpired()){
+            return 3;
+        }else{
+            return -itemAdapter.getQuality();
         }
     }
 }

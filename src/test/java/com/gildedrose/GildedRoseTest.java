@@ -830,7 +830,7 @@ public class GildedRoseTest {
     }
 
     @Test
-    public void updateQuality_backstagePassesOnExpirationDateAndMaxQuality_noEffectOnQuality() {
+    public void updateQuality_backstagePassesOnExpirationDateAndMaxQuality_minimumQuality() {
         GildedRose app = createGildedRoseWithOneItem("Backstage passes to a TAFKAL80ETC concert", 0, maxQuality);
 
         app.updateQuality();
