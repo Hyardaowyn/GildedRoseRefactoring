@@ -884,6 +884,167 @@ public class GildedRoseTest {
 
         assertEquals(minimumQuality, app.items[0].quality);
     }
+    
+    // conjured item
+    @Test
+    public void updateQuality_conjuredItem_correctName() {
+        GildedRose app = createGildedRoseWithOneItem("ConjuredItem", 0, 0);
+
+        app.updateQuality();
+
+        assertEquals("ConjuredItem", app.items[0].name);
+    }
+
+    @Test
+    public void updateQuality_conjuredItemLongBeforeExpirationDate_sellInOneLess() {
+        GildedRose app = createGildedRoseWithOneItem("ConjuredItem", longBeforeExpirationDate, 0);
+
+        app.updateQuality();
+
+        assertEquals(longBeforeExpirationDate - 1, app.items[0].sellIn);
+    }
+
+    @Test
+    public void updateQuality_conjuredItemBeforeExpirationDate_sellInOneLess() {
+        GildedRose app = createGildedRoseWithOneItem("ConjuredItem", beforeExpirationDate, 0);
+
+        app.updateQuality();
+
+        assertEquals(beforeExpirationDate - 1, app.items[0].sellIn);
+    }
+
+    @Test
+    public void updateQuality_conjuredItemOnExpirationDate_sellInOneLess() {
+        GildedRose app = createGildedRoseWithOneItem("ConjuredItem", expirationDate, 0);
+
+        app.updateQuality();
+
+        assertEquals(expirationDate - 1, app.items[0].sellIn);
+    }
+
+    @Test
+    public void updateQuality_conjuredItemAfterExpirationDate_sellInOneLess() {
+        GildedRose app = createGildedRoseWithOneItem("ConjuredItem", afterExpirationDate, 0);
+
+        app.updateQuality();
+
+        assertEquals(afterExpirationDate - 1, app.items[0].sellIn);
+    }
+
+    @Test
+    public void updateQuality_conjuredItemLongAfterExpirationDate_sellInOneLess() {
+        GildedRose app = createGildedRoseWithOneItem("ConjuredItem", longAfterExpirationDate, 0);
+
+        app.updateQuality();
+
+        assertEquals(longAfterExpirationDate - 1, app.items[0].sellIn);
+    }
+
+    // quality before expiration date
+
+    @Test
+    public void updateQuality_conjuredItemLongBeforeExpirationDateAndNegativeQuality_qualityNotChanged() {
+        GildedRose app = createGildedRoseWithOneItem("ConjuredItem", longBeforeExpirationDate, negativeQuality);
+
+        app.updateQuality();
+
+        assertEquals(negativeQuality, app.items[0].quality);
+    }
+
+    @Test
+    public void updateQuality_conjuredItemBeforeExpirationDateAndNegativeQuality_qualityNotChanged() {
+        GildedRose app = createGildedRoseWithOneItem("ConjuredItem", beforeExpirationDate, negativeQuality);
+
+        app.updateQuality();
+
+        assertEquals(negativeQuality, app.items[0].quality);
+    }
+
+    @Test
+    public void updateQuality_conjuredItemBeforeExpirationDateAndAQualityOfOne_zeroQuality() {
+        GildedRose app = createGildedRoseWithOneItem("ConjuredItem", beforeExpirationDate, 1);
+
+        app.updateQuality();
+
+        assertEquals(0, app.items[0].quality);
+    }
+
+    @Test
+    public void updateQuality_conjuredItemBeforeExpirationDateWithQualityThreeMoreThanMinimum_qualityDecreasedByTwo() {
+        GildedRose app = createGildedRoseWithOneItem("ConjuredItem", beforeExpirationDate, minimumQuality + 3);
+
+        app.updateQuality();
+
+        assertEquals(minimumQuality + 1, app.items[0].quality);
+    }
+
+    @Test
+    public void updateQuality_conjuredItemBeforeExpirationDateAndMaximumPositiveQuality_qualityDecreasedByTwo() {
+        GildedRose app = createGildedRoseWithOneItem("ConjuredItem", beforeExpirationDate, maxQuality);
+
+        app.updateQuality();
+
+        assertEquals(maxQuality - 2, app.items[0].quality);
+    }
+
+    // quality on expiration date
+
+    @Test
+    public void updateQuality_conjuredItemOnExpirationDateWithQualityOneMoreThanMinimum_qualityDecreasedToMinimum() {
+        GildedRose app = createGildedRoseWithOneItem("ConjuredItem", expirationDate, minimumQuality + 1);
+
+        app.updateQuality();
+
+        assertEquals(minimumQuality, app.items[0].quality);
+    }
+
+    @Test
+    public void updateQuality_conjuredItemOnExpirationDateWithMaxQuality_qualityDecreasedByFour() {
+        GildedRose app = createGildedRoseWithOneItem("ConjuredItem", expirationDate, maxQuality);
+
+        app.updateQuality();
+
+        assertEquals(maxQuality - 4, app.items[0].quality);
+    }
+
+    // quality after expiration date
+
+    @Test
+    public void updateQuality_conjuredItemAfterExpirationDateWithQualityOneMoreThanMinimum_qualityDecreasedToMinimum() {
+        GildedRose app = createGildedRoseWithOneItem("ConjuredItem", afterExpirationDate, minimumQuality + 1);
+
+        app.updateQuality();
+
+        assertEquals(minimumQuality, app.items[0].quality);
+    }
+
+    @Test
+    public void updateQuality_conjuredItemAfterExpirationDateWithOneLessThanMaxQuality_qualityDecreasedByFour() {
+        GildedRose app = createGildedRoseWithOneItem("ConjuredItem", afterExpirationDate, maxQuality - 1);
+
+        app.updateQuality();
+
+        assertEquals(maxQuality - 5, app.items[0].quality);
+    }
+
+    @Test
+    public void updateQuality_conjuredItemAfterExpirationDateWithMaxQuality_qualityDecreasedByFour() {
+        GildedRose app = createGildedRoseWithOneItem("ConjuredItem", afterExpirationDate, maxQuality);
+
+        app.updateQuality();
+
+        assertEquals(maxQuality - 4, app.items[0].quality);
+    }
+
+    @Test
+    public void updateQuality_conjuredItemAfterExpirationDateWithHigherThanMaxQuality_qualityDecreasedByFour() {
+        GildedRose app = createGildedRoseWithOneItem("ConjuredItem", afterExpirationDate, maxQuality + 5);
+
+        app.updateQuality();
+
+        assertEquals(maxQuality + 1, app.items[0].quality);
+    }
+
 
     // helper methods
 
