@@ -1,11 +1,11 @@
 package com.gildedrose;
 
-public class Sulfuras implements IUpdatable {
+final class Sulfuras implements IUpdatable {
 
-    Item item;
+    ItemAdapter itemAdapter;
 
     public Sulfuras(Item item) {
-        this.item = item;
+        this.itemAdapter = new ItemAdapter(item);
     }
 
     @Override
