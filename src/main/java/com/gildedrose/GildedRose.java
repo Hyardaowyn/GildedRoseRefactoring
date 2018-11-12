@@ -2,7 +2,7 @@ package com.gildedrose;
 
 class GildedRose {
     Item[] items;
-    private static final updatableFactory updatableFactory = new updatableFactory();
+    private static final UpdatableFactory updatableFactory = new UpdatableFactory();
 
     public GildedRose(Item[] items) {
         this.items = items;

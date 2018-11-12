@@ -4,39 +4,22 @@ import java.util.MissingFormatArgumentException;
 
 final class ItemAdapter implements IItemAdapter {
 
-    private static final int MAX_QUALITY = 50;
-    private static final int MIN_QUALITY = 0;
     private static final int EXPIRATION_DATE = 0;
+    private final IQualityUpdater qualityUpdater;
+    private final IExpiryTimeUpdater expiryTimeUpdater;
     private final Item item;
 
-    public ItemAdapter(Item item) {
+    public ItemAdapter(Item item, IQualityUpdater qualityUpdater, IExpiryTimeUpdater expiryTimeUpdater) {
         this.item = item;
+        this.qualityUpdater = qualityUpdater;
+        this.expiryTimeUpdater = expiryTimeUpdater;
     }
 
-    public void addToQuality(int qualityDifferential){
-        if(qualityDifferential>0 && item.quality < MAX_QUALITY){
-            increaseQuality(qualityDifferential);
-        }
-        if(qualityDifferential<0 && item.quality > MIN_QUALITY) {
-            decreaseQuality(-qualityDifferential);
-        }
+    public void addToQuality(int qualityDifferential) {
+        qualityUpdater.addToQuality(item, qualityDifferential);
     }
 
-    private void increaseQuality(int qualityDifferential) {
-            item.quality = item.quality + qualityDifferential;
-            if (item.quality > MAX_QUALITY) {
-                item.quality = MAX_QUALITY;
-            }
-    }
-
-    private void decreaseQuality(int qualityDifferential) {
-            item.quality = item.quality - qualityDifferential;
-            if (item.quality < MIN_QUALITY) {
-                item.quality = MIN_QUALITY;
-            }
-    }
-
-    public int getQuality(){
+    public int getQuality() {
         return item.quality;
     }
 
@@ -44,8 +27,8 @@ final class ItemAdapter implements IItemAdapter {
         return item.sellIn;
     }
 
-    public void decreaseTimeTillExpiry() {
-        item.sellIn--;
+    public void updateDaysTillExpiry() {
+        expiryTimeUpdater.updateDaysTillExpiry(item);
     }
 
     public boolean isExpired() {
