@@ -1,7 +1,6 @@
 package com.gildedrose;
 
 interface IQualityUpdater {
-    public void increaseQuality(int qualityDifferential);
-    public void decreaseQuality(int qualityDifferential);
+    public void addToQuality(int qualityDifferential);
     public int getQuality();
 }

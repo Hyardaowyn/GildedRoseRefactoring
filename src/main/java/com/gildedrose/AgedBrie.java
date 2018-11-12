@@ -11,7 +11,7 @@ final class AgedBrie implements IUpdatable {
     public void update() {
         itemAdapter.decreaseTimeTillExpiry();
         int qualityDifferential = calculateQualityDifferential(itemAdapter);
-        itemAdapter.increaseQuality(qualityDifferential);
+        itemAdapter.addToQuality(qualityDifferential);
     }
 
     private int calculateQualityDifferential(IItemAdapter itemAdapter){

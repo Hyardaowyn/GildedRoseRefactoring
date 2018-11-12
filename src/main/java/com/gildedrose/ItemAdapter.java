@@ -1,5 +1,7 @@
 package com.gildedrose;
 
+import java.util.MissingFormatArgumentException;
+
 final class ItemAdapter implements IItemAdapter {
 
     private static final int MAX_QUALITY = 50;
@@ -11,22 +13,27 @@ final class ItemAdapter implements IItemAdapter {
         this.item = item;
     }
 
-    public void increaseQuality(int qualityDifferential) {
-        if (item.quality <= MAX_QUALITY) {
+    public void addToQuality(int qualityDifferential){
+        if(qualityDifferential>0 && item.quality < MAX_QUALITY){
+            increaseQuality(qualityDifferential);
+        }
+        if(qualityDifferential<0 && item.quality > MIN_QUALITY) {
+            decreaseQuality(-qualityDifferential);
+        }
+    }
+
+    private void increaseQuality(int qualityDifferential) {
             item.quality = item.quality + qualityDifferential;
             if (item.quality > MAX_QUALITY) {
                 item.quality = MAX_QUALITY;
             }
-        }
     }
 
-    public void decreaseQuality(int qualityDifferential) {
-        if (item.quality > MIN_QUALITY) {
+    private void decreaseQuality(int qualityDifferential) {
             item.quality = item.quality - qualityDifferential;
             if (item.quality < MIN_QUALITY) {
                 item.quality = MIN_QUALITY;
             }
-        }
     }
 
     public int getQuality(){

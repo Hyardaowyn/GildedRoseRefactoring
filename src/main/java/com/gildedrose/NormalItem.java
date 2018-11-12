@@ -12,10 +12,10 @@ final class NormalItem implements IUpdatable {
     public void update() {
         itemAdapter.decreaseTimeTillExpiry();
         int qualityDifferential = calculateQualityDifferential(itemAdapter);
-        itemAdapter.decreaseQuality(qualityDifferential);
+        itemAdapter.addToQuality(qualityDifferential);
     }
 
     private int calculateQualityDifferential(IItemAdapter itemAdapter){
-        return itemAdapter.isExpired()? 2:1;
+        return itemAdapter.isExpired()? -2:-1;
     }
 }
