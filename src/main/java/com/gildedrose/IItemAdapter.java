@@ -1,6 +1,10 @@
 package com.gildedrose;
 
-interface IItemAdapter extends IExpirable {
+interface IItemAdapter {
+    public int getTimeTillExpiry();
 
-    void addToQuality(int qualityDifferential);
+    public int getQuality();
+
+    public boolean isExpired();
+
 }

@@ -6,17 +6,16 @@ final class UpdatableFactory {
     private static final String BACKSTAGE_PASSES = "Backstage passes to a TAFKAL80ETC concert";
     private static final String SULFURAS = "Sulfuras, Hand of Ragnaros";
 
-
     IUpdatable create(Item item) {
         switch (item.name) {
             case SULFURAS:
-                return new CustomItem(new ItemAdapter(item, new QualityUpdater(),new UnaffectedByExpiryTimeUpdater()), new SulfurasQualityDifferentialCalculator());
+                return new CustomItem(item, new QualityUpdater(),new UnaffectedByExpiryTimeUpdater(),new ItemAdapter(item), new SulfurasQualityDifferentialCalculator());
             case AGED_BRIE:
-                return new CustomItem(new ItemAdapter(item, new QualityUpdater(), new AffectedByExpiryTimeUpdater()), new AgedBrieQualityDifferentialCalculator());
+                return new CustomItem(item, new QualityUpdater(),new AffectedByExpiryTimeUpdater(),new ItemAdapter(item), new AgedBrieQualityDifferentialCalculator());
             case BACKSTAGE_PASSES:
-                return new CustomItem(new ItemAdapter(item, new QualityUpdater(), new AffectedByExpiryTimeUpdater()), new BackstagePassesQualityDifferentialCalculator());
+                return new CustomItem(item, new QualityUpdater(),new AffectedByExpiryTimeUpdater(),new ItemAdapter(item), new BackstagePassesQualityDifferentialCalculator());
             default:
-                return new CustomItem(new ItemAdapter(item, new QualityUpdater(), new AffectedByExpiryTimeUpdater()), new NormalQualityDifferentialCalculator());
+                return new CustomItem(item, new QualityUpdater(),new AffectedByExpiryTimeUpdater(),new ItemAdapter(item), new NormalQualityDifferentialCalculator());
         }
     }
 
